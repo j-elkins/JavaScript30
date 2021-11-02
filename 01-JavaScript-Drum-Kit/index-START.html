@@ -56,9 +56,30 @@
     <audio data-key="76" src="sounds/tink.wav"></audio>
 
     <script>
-      function playSound(e) {}
+      window.addEventListener("keydown", function (e) {
+        // console.log(e.keyCode);
+        const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+        const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+        // looks for an audio element, search by class or attribute selector tag
+        // in this case needs to pull from data within the event object: keyCode
+        if (!audio) return; // end function if there's no audio element on that key
+        audio.currentTime = 0; // rewinds to the start if key pressed again
+        audio.play();
 
-      addEventListener("keydown[data-key='65']", playSound(e));
+        key.classList.add("playing");
+      });
+
+      function removeTransition(e) {
+        console.log(e);
+      }
+
+      // to remove border effects, select each key on the page and listen for event ending
+      const keys = document.querySelectorAll(".key");
+      keys.forEach((key) =>
+        key.addEventListener("transitionend", removeTransition())
+      );
+      // each key gets an event listener added to it
+      // when a transition is ending, call function removeTransition
     </script>
   </body>
 </html>
